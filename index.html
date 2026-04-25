@@ -12,14 +12,14 @@
   <meta name="mobile-web-app-capable" content="yes">
   
   <!-- SEO Meta Tags -->
-  <title>Word Unscrambler & Tools - Free Online Utilities</title>
+  <title>Word Unscrambler - Find Words Instantly</title>
   <meta name="description" content="Free word unscrambler, Gmail generator, and 1099 tax calculator tools.">
-  <meta name="keywords" content="word unscrambler, scrabble solver, gmail generator, 1099 tax calculator, freelance tax estimator">
+  <meta name="keywords" content="word unscrambler, scrabble solver, gmail generator, 1099 tax calculator">
   <meta name="author" content="Word Unscrambler">
   <meta name="robots" content="index, follow">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="Word Unscrambler & Tools">
+  <meta property="og:title" content="Word Unscrambler">
   <meta property="og:description" content="Free online tools - Unscramble words, generate emails, and calculate taxes.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fininsurefit.github.io/Word-Unscrambler">
@@ -357,6 +357,36 @@
     }
     footer a { color: var(--text-dark); text-decoration: none; margin: 0 0.5rem; font-weight: 600; }
     footer a:hover { color: var(--primary); }
+
+    /* ========== TOAST NOTIFICATION ========== */
+    #toast {
+      visibility: hidden;
+      min-width: 250px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      font-size: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    #toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein {
+      from {bottom: 0; opacity: 0;}
+      to {bottom: 30px; opacity: 1;}
+    }
+    @keyframes fadeout {
+      from {bottom: 30px; opacity: 1;}
+      to {bottom: 0; opacity: 0;}
+    }
   </style>
 </head>
 <body>
@@ -365,7 +395,7 @@
     <div class="nav-container">
       <a href="#home" class="logo">
         <div class="logo-icon">✦</div>
-        Tools
+        Word Unscrambler
       </a>
       
       <div class="nav-controls">
@@ -452,7 +482,7 @@
       <div id="resultsSection" class="results-section">
         <div class="results-header">
           <strong id="resultsCount">0 words found</strong>
-          <button onclick="copyAll()" style="padding:0.4rem 0.8rem;border:1px solid var(--border);background:var(--bg-card);border-radius:6px;cursor:pointer;font-size:0.85rem;color:var(--text-dark)">📋 Copy All</button>
+          <button onclick="copyAllWords()" style="padding:0.4rem 0.8rem;border:1px solid var(--border);background:var(--bg-card);border-radius:6px;cursor:pointer;font-size:0.85rem;color:var(--text-dark)">📋 Copy All</button>
         </div>
         <div id="resultsGrid" class="results-grid"></div>
       </div>
@@ -589,13 +619,16 @@
   </div> <!-- End Main Content -->
 
   <footer>
-    <p>&copy; 2026 Tools. All rights reserved.</p>
+    <p>&copy; 2026 Word Unscrambler. All rights reserved.</p>
     <div style="margin-top: 0.5rem;">
       <a href="#about" onclick="showSection('about'); return false;">About</a> • 
       <a href="#privacy" onclick="showSection('privacy'); return false;">Privacy</a> • 
       <a href="#contact" onclick="showSection('contact'); return false;">Contact</a>
     </div>
   </footer>
+
+  <!-- Toast Notification Element -->
+  <div id="toast">Copied!</div>
 
   <script>
     // ========== NAVIGATION & THEME LOGIC ==========
@@ -645,6 +678,14 @@
         themeBtn.textContent = '☀️';
       }
     });
+
+    // ========== TOAST NOTIFICATION FUNCTION ==========
+    function showToast(message) {
+      var x = document.getElementById("toast");
+      x.textContent = message;
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
 
     // ========== WORD UNSCRAMBLER LOGIC ==========
     const letterValues = {a:1,b:3,c:3,d:2,e:1,f:4,g:2,h:4,i:1,j:8,k:5,l:1,m:3,n:1,o:1,p:3,q:10,r:1,s:1,t:1,u:1,v:4,w:4,x:8,y:4,z:10};
@@ -709,9 +750,13 @@
         const div = document.createElement('div');
         div.className = 'word-item';
         div.innerHTML = `<span class="word-text">${item.word}</span><span class="word-score">${item.score}</span>`;
-        div.onclick = () => { navigator.clipboard.writeText(item.word); div.style.background = 'var(--primary-light)'; setTimeout(()=>div.style.background='var(--bg-body)',300); };
+        div.onclick = () => { navigator.clipboard.writeText(item.word); showToast('Copied: ' + item.word); };
         grid.appendChild(div);
       });
+    }
+    function copyAllWords() {
+      const words = Array.from(document.querySelectorAll('.word-text')).map(el => el.textContent).join(', ');
+      navigator.clipboard.writeText(words).then(() => showToast('All words copied!'));
     }
     document.getElementById('unscrambleBtn').addEventListener('click', unscramble);
     document.getElementById('letterInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') unscramble(); });
@@ -736,7 +781,7 @@
     }
     function copyGmailAliases() {
       const emails = Array.from(document.querySelectorAll('#gmailEmailList .email-item')).map(i => i.textContent).join('\n');
-      navigator.clipboard.writeText(emails).then(() => alert('Copied!'));
+      navigator.clipboard.writeText(emails).then(() => showToast('All aliases copied!'));
     }
 
     // ========== TAX CALCULATOR LOGIC ==========
