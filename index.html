@@ -91,7 +91,7 @@
       z-index: 100;
     }
     .nav-container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
       display: flex;
@@ -117,63 +117,106 @@
       color: white;
     }
     
-    /* Menu Toggle & Theme Toggle */
+    /* Nav Controls (Theme + Menu) */
     .nav-controls {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
-    .menu-toggle, .theme-toggle {
+    
+    /* Theme Toggle Button */
+    .theme-toggle {
       background: transparent;
       border: 1px solid var(--border);
       cursor: pointer;
       padding: 0.5rem;
       border-radius: 6px;
       color: var(--text-dark);
+      font-size: 1.2rem;
       display: grid;
       place-items: center;
       transition: all 0.2s;
+    }
+    .theme-toggle:hover { background: var(--primary-light); color: var(--primary); }
+
+    /* Hamburger Menu Button (Hidden on Desktop by default) */
+    .menu-toggle {
+      display: none; /* Hidden on desktop */
+      background: transparent;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      color: var(--text-dark);
+      flex-direction: column;
+      gap: 4px;
     }
     .menu-toggle span {
       display: block;
       width: 20px;
       height: 2px;
       background: var(--text-dark);
-      margin: 4px 0;
       transition: 0.3s;
     }
     .menu-toggle.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
     .menu-toggle.active span:nth-child(2) { opacity: 0; }
     .menu-toggle.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
 
-    .theme-toggle { font-size: 1.2rem; }
-    .theme-toggle:hover { background: var(--primary-light); color: var(--primary); }
-
-    /* Nav Links Dropdown */
+    /* Nav Links - Desktop Style (Horizontal) */
     .nav-links {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--bg-card);
-      flex-direction: column;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      gap: 1rem;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
     }
-    .nav-links.active { display: flex; }
     .nav-links a {
       color: var(--text-dark);
       text-decoration: none;
       font-weight: 500;
       font-size: 1rem;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+      position: relative;
     }
-    .nav-links a:last-child { border-bottom: none; }
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-links a:hover, .nav-links a.active { 
+      color: var(--primary); 
+    }
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* Mobile Responsive Navigation */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: flex; /* Show hamburger on mobile */
+      }
+      
+      .nav-links {
+        display: none; /* Hide links by default on mobile */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-card);
+        flex-direction: column;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        gap: 1rem;
+        text-align: center;
+      }
+      .nav-links.active {
+        display: flex; /* Show when active */
+      }
+      .nav-links a.active::after {
+        display: none; /* Remove underline on mobile */
+      }
+    }
 
     /* ========== MAIN CONTENT ========== */
     .main-content {
@@ -198,7 +241,7 @@
       margin: 1.5rem 0;
       padding: 0.75rem;
       background: var(--bg-card);
-      border-radius: var(--radius);
+      border-radius: 8px;
       border: 1px solid var(--border);
     }
     .ad-label {
@@ -328,12 +371,14 @@
       <div class="nav-controls">
         <!-- Theme Toggle -->
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-        <!-- Hamburger Menu -->
+        
+        <!-- Hamburger Menu (Mobile Only) -->
         <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
           <span></span><span></span><span></span>
         </button>
       </div>
       
+      <!-- Nav Links (Horizontal on Desktop, Dropdown on Mobile) -->
       <div class="nav-links" id="navLinks">
         <a href="#home" onclick="showSection('home'); return false;" id="nav-home" class="active">Home</a>
         <a href="#gmail-generator" onclick="showSection('gmail-generator'); return false;">Gmail Generator</a>
@@ -519,7 +564,7 @@
       </div>
     </section>
 
-    <!-- ABOUT, PRIVACY, CONTACT SECTIONS (Simplified for brevity but present) -->
+    <!-- ABOUT, PRIVACY, CONTACT SECTIONS -->
     <section id="about">
       <div class="content-card">
         <h2>About</h2>
@@ -566,7 +611,7 @@
       document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
       if(document.getElementById('nav-' + id)) document.getElementById('nav-' + id).classList.add('active');
       
-      // Close menu
+      // Close mobile menu if open
       document.getElementById('menuToggle').classList.remove('active');
       document.getElementById('navLinks').classList.remove('active');
       
@@ -603,7 +648,6 @@
 
     // ========== WORD UNSCRAMBLER LOGIC ==========
     const letterValues = {a:1,b:3,c:3,d:2,e:1,f:4,g:2,h:4,i:1,j:8,k:5,l:1,m:3,n:1,o:1,p:3,q:10,r:1,s:1,t:1,u:1,v:4,w:4,x:8,y:4,z:10};
-    // Shortened dictionary for brevity in this response, assume full one is used in production
     const dictionary = "a,able,about,above,accept,account,across,act,action,activity,add,address,admit,adult,affect,after,again,against,age,agency,agent,ago,agree,agreement,ahead,air,all,allow,almost,alone,along,already,also,although,always,american,among,amount,analysis,animal,another,answer,any,anyone,anything,appear,apply,approach,area,argue,arm,army,around,arrive,art,article,artist,as,ask,assume,at,attack,attention,attorney,audience,author,authority,available,avoid,away,baby,back,bad,bag,balance,ball,bank,bar,base,beat,beautiful,because,become,bed,before,begin,behavior,behind,believe,benefit,best,better,between,beyond,big,bill,billion,bit,black,blood,blue,board,body,bone,book,born,both,box,boy,break,bring,brother,budget,build,building,business,busy,but,buy,by,call,camera,campaign,can,cancer,candidate,capital,car,card,care,career,carry,case,catch,cause,cell,center,central,century,certain,certainly,chair,chance,change,character,charge,check,child,children,choice,choose,church,citizen,city,civil,claim,class,clear,clearly,close,clothes,coach,cold,collection,college,color,come,commercial,common,community,company,compare,computer,concern,condition,conference,congress,consider,consumer,contain,continue,control,cost,could,country,couple,course,court,cover,create,crime,cultural,culture,cup,current,customer,cut,dark,data,daughter,day,dead,deal,death,debate,decade,decide,decision,deep,defense,degree,democrat,democratic,describe,design,despite,detail,determine,develop,development,device,die,difference,different,difficult,difficulty,dinner,direction,director,dirt,dirty,disagree,discover,discussion,disease,do,doctor,document,dog,door,down,draw,dream,drive,drop,drug,during,each,early,east,easy,eat,economic,economy,edge,education,effect,effort,eight,either,election,else,employee,energy,enjoy,enough,enter,entire,environment,environmental,equipment,especially,establish,even,everyone,examine,example,except,exchange,exciting,executive,exist,expect,experience,expert,explain,eye,face,fact,factor,fail,failure,fair,fall,family,far,farm,farmer,fashion,father,fear,feature,federal,feel,feeling,few,field,fight,figure,file,fill,film,final,finally,financial,find,fine,fire,firm,first,fish,five,floor,fly,focus,follow,food,foot,for,force,foreign,forget,form,former,forward,four,free,freedom,frequently,from,front,full,fund,future,game,garden,gas,gather,gear,gender,general,generally,generate,generation,geography,get,girl,give,glass,go,goal,good,government,grab,grade,grandmother,group,grow,growth,guess,guest,guide,gun,guy,hair,half,hand,handle,happen,happy,hard,have,head,health,hear,heart,heavy,help,her,here,herself,high,history,hit,hold,hole,holiday,home,hope,hospital,hot,hotel,hour,house,how,however,huge,human,hundred,husband,idea,identify,image,imagine,impact,implement,important,improve,in,include,including,increase,indeed,indicate,individual,industry,information,inside,instead,institution,interest,interesting,international,internet,interview,into,investment,involve,island,issue,it,item,its,itself,job,join,just,keep,key,kid,kill,kind,kitchen,know,knowledge,lack,land,language,large,last,late,later,laugh,lead,leader,leadership,learn,least,leave,legal,legislature,length,less,let,letter,level,life,light,like,likely,line,list,listen,little,live,living,local,long,look,lose,loss,lot,love,low,machine,magazine,mail,main,maintain,major,majority,make,man,manage,management,manager,many,market,marriage,material,matter,maybe,mean,measure,media,medical,meet,meeting,member,memory,mention,message,method,middle,might,military,million,mind,minute,miss,mission,model,money,month,more,morning,mother,mount,mountain,mouth,move,movement,movie,much,music,must,myself,name,nation,national,natural,nature,near,nearly,necessary,need,network,never,new,news,newspaper,next,nice,night,no,none,nor,north,note,nothing,notice,now,nowhere,number,object,occasion,occur,ocean,off,offer,office,officer,official,often,oil,old,once,one,only,onto,open,operation,opportunity,option,or,order,organization,other,otherwise,our,ourselves,out,outside,over,own,owner,page,pain,painting,paper,parallel,parent,part,particular,particularly,partner,party,pass,past,path,patient,pattern,pay,peace,people,per,perform,performance,perhaps,period,person,personal,phone,physical,pick,picture,piece,place,plan,plant,play,player,point,police,policy,political,politics,poor,popular,population,position,positive,possible,potentially,pound,power,practice,prepare,present,presentation,president,pressure,pretty,prevent,price,private,probably,problem,process,produce,product,production,professional,professor,program,progress,project,property,protect,prove,provide,public,pull,purpose,push,put,quality,question,quickly,quiet,quite,race,radio,raise,range,rate,rather,reach,react,read,ready,real,realize,really,reason,receive,recent,record,red,reduce,reflect,region,relate,relationship,religious,remain,remember,remove,repeat,replace,report,represent,require,requirement,research,resource,respond,response,responsibility,rest,result,return,reveal,rich,right,rise,risk,road,rock,role,room,rule,run,safe,same,save,say,scale,scene,school,science,scientist,score,sea,season,seat,second,section,sector,secure,security,see,seed,seek,seem,sell,send,senior,sense,series,serious,serve,service,set,settle,seven,several,sex,sexual,shake,share,she,shoot,short,shot,should,shoulder,show,side,sign,significant,similar,simple,simply,since,sing,single,sister,sit,site,situation,size,skill,skin,small,smile,so,social,society,soldier,some,somebody,someone,something,sometimes,song,soon,sorry,sort,sound,south,southern,space,speak,special,specific,speech,spend,sport,spring,staff,stage,stand,standard,star,start,state,statement,station,stay,step,still,stock,stop,store,story,strategy,street,strong,structure,student,study,stuff,style,subject,success,successful,such,suddenly,suggest,summer,support,suppose,sure,system,table,take,talk,target,task,tax,teach,teacher,team,technology,television,tell,tend,term,test,than,thank,that,the,their,them,theme,themselves,then,theory,there,these,they,thing,think,third,this,those,though,thought,thousand,threat,three,through,throughout,throw,thus,time,to,today,together,tonight,too,tool,top,topic,total,touch,tough,toward,towards,town,trade,traditional,training,travel,treat,treatment,tree,trial,trip,trouble,true,truth,try,turn,two,type,uncle,under,understand,unit,university,unknown,unless,until,up,upon,us,use,usually,value,various,very,victim,view,village,violence,visit,voice,wait,walk,wall,want,war,watch,water,way,we,weapon,wear,web,website,week,weight,well,went,western,what,whatever,when,where,whether,which,while,white,who,whole,whom,whose,why,wide,wife,will,win,wind,window,wine,wish,with,within,without,woman,wonder,women,word,work,worker,world,worry,would,write,writer,wrong,yard,yeah,year,yes,yesterday,yet,you,young,your,yourself,youth".split(",").filter(w=>w.length>0);
 
     function getLetterCounts(str) {
@@ -717,7 +761,7 @@
       let taxableIncome = Math.max(0, totalIncome - deduction);
       let incomeTax = 0;
 
-      // Simplified Progressive Rates (Single/Married blended logic for estimation)
+      // Simplified Progressive Rates
       if (taxableIncome > 0) {
         if (status === 'single' || status === 'head') {
           if (taxableIncome <= 11600) incomeTax = taxableIncome * 0.10;
