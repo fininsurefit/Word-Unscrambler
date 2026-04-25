@@ -12,15 +12,15 @@
   <meta name="mobile-web-app-capable" content="yes">
   
   <!-- SEO Meta Tags -->
-  <title>Word Unscrambler & Gmail Generator - Free Tools</title>
-  <meta name="description" content="Free word unscrambler and Gmail generator tools. Find words from letters and generate Gmail aliases instantly.">
-  <meta name="keywords" content="word unscrambler, scrabble solver, gmail generator, email aliases">
+  <title>Word Unscrambler & Tools - Free Online Utilities</title>
+  <meta name="description" content="Free word unscrambler, Gmail generator, and 1099 tax calculator tools.">
+  <meta name="keywords" content="word unscrambler, scrabble solver, gmail generator, 1099 tax calculator, freelance tax estimator">
   <meta name="author" content="Word Unscrambler">
   <meta name="robots" content="index, follow">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="Word Unscrambler & Gmail Generator">
-  <meta property="og:description" content="Free online tools - Unscramble words and generate Gmail aliases">
+  <meta property="og:title" content="Word Unscrambler & Tools">
+  <meta property="og:description" content="Free online tools - Unscramble words, generate emails, and calculate taxes.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://fininsurefit.github.io/Word-Unscrambler">
   
@@ -423,6 +423,82 @@
       font-size: 0.95rem;
     }
 
+    /* Tax Calculator Styles */
+    .tax-tool {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .tax-input-group {
+      margin-bottom: 1.5rem;
+    }
+    .tax-input-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+    .tax-input {
+      width: 100%;
+      padding: 0.875rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .tax-input:focus {
+      border-color: var(--primary);
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+    }
+    .tax-results {
+      background: var(--bg-body);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .tax-result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tax-result-item:last-child {
+      border-bottom: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+    }
+    .quarterly-box {
+      background: var(--primary-light);
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .quarterly-box h4 {
+      color: var(--primary-dark);
+      margin-bottom: 0.5rem;
+    }
+    .quarterly-amount {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
     /* Content Pages */
     .content-card {
       background: white;
@@ -529,6 +605,7 @@
       <div class="nav-links" id="navLinks">
         <a href="#home" onclick="showSection('home'); return false;" id="nav-home" class="active">Home</a>
         <a href="#gmail-generator" onclick="showSection('gmail-generator'); return false;">Gmail Generator</a>
+        <a href="#tax-calculator" onclick="showSection('tax-calculator'); return false;">1099 Tax Calculator</a>
         <a href="#about" onclick="showSection('about'); return false;">About</a>
         <a href="#privacy" onclick="showSection('privacy'); return false;">Privacy</a>
         <a href="#contact" onclick="showSection('contact'); return false;">Contact</a>
@@ -720,6 +797,102 @@
       </div>
     </section>
 
+    <!-- 1099 TAX CALCULATOR SECTION -->
+    <section id="tax-calculator">
+      <div class="tool-header">
+        <h1>1099 Tax Calculator</h1>
+        <p>Estimate your quarterly tax payments as a freelancer</p>
+      </div>
+
+      <!-- AD 1: Top -->
+      <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script>
+          atOptions = {
+            'key' : '013f48ccb08daaec73782a27adfcfa75',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/013f48ccb08daaec73782a27adfcfa75/invoke.js"></script>
+      </div>
+
+      <div class="info-box">
+        <p><strong>💡 Note:</strong> As a 1099 contractor, you are responsible for Self-Employment Tax (15.3%) and Federal Income Tax. A general rule is to set aside 25-35% of your income.</p>
+      </div>
+
+      <div class="tax-tool">
+        <div class="tax-input-group">
+          <label>Estimated Freelance Income ($)</label>
+          <input type="number" id="freelanceIncome" class="tax-input" placeholder="e.g., 50000" min="0">
+        </div>
+
+        <div class="tax-input-group">
+          <label>W-2 Income (Optional) ($)</label>
+          <input type="number" id="w2Income" class="tax-input" placeholder="e.g., 30000" min="0">
+        </div>
+
+        <div class="tax-input-group">
+          <label>Business Expenses/Deductions ($)</label>
+          <input type="number" id="expenses" class="tax-input" placeholder="e.g., 5000" min="0">
+        </div>
+
+        <div class="tax-input-group">
+          <label>Filing Status</label>
+          <select id="filingStatus" class="tax-input">
+            <option value="single">Single</option>
+            <option value="married_joint">Married Filing Jointly</option>
+            <option value="head_household">Head of Household</option>
+          </select>
+        </div>
+
+        <button class="btn-primary" onclick="calculateTax()">CALCULATE TAXES</button>
+      </div>
+
+      <div class="tax-results" id="taxResults" style="display: none;">
+        <h3>Tax Breakdown</h3>
+        <div class="tax-result-item">
+          <span>Net Profit (Income - Expenses)</span>
+          <span id="netProfit">$0</span>
+        </div>
+        <div class="tax-result-item">
+          <span>Self-Employment Tax (15.3%)</span>
+          <span id="seTax">$0</span>
+        </div>
+        <div class="tax-result-item">
+          <span>Estimated Federal Income Tax</span>
+          <span id="fedTax">$0</span>
+        </div>
+        <div class="tax-result-item">
+          <span>Total Estimated Tax Owed</span>
+          <span id="totalTax">$0</span>
+        </div>
+
+        <div class="quarterly-box">
+          <h4>Recommended Quarterly Payment</h4>
+          <div class="quarterly-amount" id="quarterlyPayment">$0</div>
+          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Pay this amount 4 times a year (Apr, Jun, Sep, Jan)</p>
+        </div>
+      </div>
+
+      <!-- AD 2: Bottom -->
+      <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script>
+          atOptions = {
+            'key' : '55e89999b63e30f3231ed8cbe797a264',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/55e89999b63e30f3231ed8cbe797a264/invoke.js"></script>
+      </div>
+    </section>
+
     <!-- ABOUT SECTION -->
     <section id="about">
       <!-- AD 1: Top -->
@@ -739,7 +912,7 @@
 
       <div class="content-card">
         <h2>About</h2>
-        <p>Free online tools to help you with word games and email management.</p>
+        <p>Free online tools to help you with word games, email management, and tax estimation.</p>
         <div class="contact-info">
           📧 <a href="mailto:luxelabgarage@gmail.com">luxelabgarage@gmail.com</a>
         </div>
@@ -881,6 +1054,8 @@
       } else if (sectionId === 'gmail-generator') {
         // No specific ID for gmail in nav links list above, but we can handle generally
         // Or just remove active from all except home if needed
+      } else if (sectionId === 'tax-calculator') {
+         // Highlight tax calculator link if we had an ID for it, otherwise generic handling
       }
       
       // Close menu if open
@@ -1111,6 +1286,73 @@
           btn.textContent = originalText;
         }, 2000);
       });
+    }
+
+    // 1099 Tax Calculator Functions
+    function calculateTax() {
+      const freelanceIncome = parseFloat(document.getElementById('freelanceIncome').value) || 0;
+      const w2Income = parseFloat(document.getElementById('w2Income').value) || 0;
+      const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+      const filingStatus = document.getElementById('filingStatus').value;
+
+      if (freelanceIncome <= 0) {
+        alert("Please enter a valid freelance income.");
+        return;
+      }
+
+      // 1. Calculate Net Profit
+      const netProfit = Math.max(0, freelanceIncome - expenses);
+      
+      // 2. Calculate Self-Employment Tax (15.3% on 92.35% of Net Profit)
+      // Standard IRS calculation: SE Tax base is 92.35% of net earnings
+      const seTaxBase = netProfit * 0.9235;
+      const seTax = seTaxBase * 0.153;
+
+      // 3. Estimate Federal Income Tax
+      // Simplified progressive tax brackets for 2024 (approximate)
+      // This is a simplified estimator. Real tax law is complex.
+      const totalIncome = netProfit + w2Income;
+      let taxableIncome = totalIncome;
+      
+      // Standard Deduction (Approximate 2024 values)
+      let standardDeduction = 14600; // Single
+      if (filingStatus === 'married_joint') standardDeduction = 29200;
+      if (filingStatus === 'head_household') standardDeduction = 21900;
+
+      taxableIncome = Math.max(0, taxableIncome - standardDeduction);
+
+      let fedTax = 0;
+      
+      // Simplified Brackets (Single/Married Joint approximations blended for simplicity in this tool)
+      // Note: This is a rough estimate for educational purposes.
+      if (taxableIncome > 0) {
+        if (filingStatus === 'single' || filingStatus === 'head_household') {
+          if (taxableIncome <= 11600) fedTax = taxableIncome * 0.10;
+          else if (taxableIncome <= 47150) fedTax = 1160 + (taxableIncome - 11600) * 0.12;
+          else if (taxableIncome <= 100525) fedTax = 5426 + (taxableIncome - 47150) * 0.22;
+          else if (taxableIncome <= 191950) fedTax = 17168 + (taxableIncome - 100525) * 0.24;
+          else fedTax = 39110 + (taxableIncome - 191950) * 0.32;
+        } else { // Married Joint
+          if (taxableIncome <= 23200) fedTax = taxableIncome * 0.10;
+          else if (taxableIncome <= 94300) fedTax = 2320 + (taxableIncome - 23200) * 0.12;
+          else if (taxableIncome <= 201050) fedTax = 10852 + (taxableIncome - 94300) * 0.22;
+          else if (taxableIncome <= 383900) fedTax = 34336 + (taxableIncome - 201050) * 0.24;
+          else fedTax = 78220 + (taxableIncome - 383900) * 0.32;
+        }
+      }
+
+      const totalTax = seTax + fedTax;
+      const quarterlyPayment = totalTax / 4;
+
+      // Display Results
+      document.getElementById('netProfit').textContent = '$' + netProfit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('seTax').textContent = '$' + seTax.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('fedTax').textContent = '$' + fedTax.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('totalTax').textContent = '$' + totalTax.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('quarterlyPayment').textContent = '$' + quarterlyPayment.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+      document.getElementById('taxResults').style.display = 'block';
+      document.getElementById('taxResults').scrollIntoView({ behavior: 'smooth' });
     }
 
     // Event listeners
